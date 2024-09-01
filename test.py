@@ -1,4 +1,8 @@
-from main import varianza_explicada, varianza_acumulada, valores_propios, vectores_propios, datos_transformados
+from main import varianza_explicada, varianza_acumulada, valores_propios, vectores_propios, datos_transformados, matriz_cov
+
+
+print("Matriz de covarianza \n", matriz_cov)
+
 
 print("Varianza explicada por cada componente:")
 for i, var in enumerate(varianza_explicada):
