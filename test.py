@@ -1,23 +1,17 @@
-import pandas as pd
-import numpy as np
-import math
+from main import varianza_explicada, varianza_acumulada, valores_propios, vectores_propios, datos_transformados
 
-# Crear el DataFrame
-file_path = 'excel.xlsx'  # Ruta relativa al archivo .py
-df = pd.read_excel(file_path)
+print("Varianza explicada por cada componente:")
+for i, var in enumerate(varianza_explicada):
+    print(f"Componente {i+1}: {var * 100:.2f}%")
 
-# Calcular la matriz de covarianza usando Pandas
-matriz = df.cov()
-print("Matriz de Covarianza usando Pandas:")
-
-I = np.identity(matriz.shape[0])
-
-print(matriz)
-
-matriz[1,1] = "a"
-
-np.linalg.det(matriz)
-
-diagonal_principal = np.diagonal(matriz)
+print("\nVarianza acumulada:")
+for i, var in enumerate(varianza_acumulada):
+    print(f"Componentes {i+1}: {var * 100:.2f}%")
 
 
+print("Valores propios ordenados:")
+print(valores_propios)
+print("Vectores propios ordenados:")
+print(vectores_propios)
+print("Datos transformados (proyecciones en los componentes principales):")
+print(datos_transformados)

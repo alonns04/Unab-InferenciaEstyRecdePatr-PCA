@@ -38,18 +38,11 @@ vectores_propios = vectores_propios[:, orden]
 
 # Calcular la varianza explicada
 varianza_total = np.sum(valores_propios)
-print(varianza_total)
+
 varianza_explicada = valores_propios / varianza_total
-print(varianza_explicada)
+
 varianza_acumulada = np.cumsum(varianza_explicada)
 
-print("Varianza explicada por cada componente:")
-for i, var in enumerate(varianza_explicada):
-    print(f"Componente {i+1}: {var * 100:.2f}%")
-
-print("\nVarianza acumulada:")
-for i, var in enumerate(varianza_acumulada):
-    print(f"Componentes {i+1}: {var * 100:.2f}%")
 
 
 # Transformar los datos
@@ -61,10 +54,3 @@ def transformar_datos(df, vectores_propios):
 
 # Transformar los datos usando los vectores propios ordenados
 datos_transformados = transformar_datos(df, vectores_propios)
-
-print("Valores propios ordenados:")
-print(valores_propios)
-print("Vectores propios ordenados:")
-print(vectores_propios)
-print("Datos transformados (proyecciones en los componentes principales):")
-print(datos_transformados)
