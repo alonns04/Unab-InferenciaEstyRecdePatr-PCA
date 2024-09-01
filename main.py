@@ -28,16 +28,42 @@ def matriz_covarianza(matriz):
             matriz_cov[i, j] = resultado # Agregamos el resultado en orden
     return matriz_cov # Retornamos la matriz de covarianza resultante
 
-matriz_cov = (matriz_covarianza(df))
+matriz_cov = (matriz_covarianza(df)) # Se ejecuta el algorítmo para crear la matriz de covarianza
 
 valores_propios, vectores_propios = np.linalg.eig(matriz_cov)
-    
+"""
+Con un método de Numpy se consiguen los valores propios y los vectores propios:
+Básicamente la matriz de covarianza, llamémosla "A", se multiplica por un 
+vector "v" (Que puede interpretarse como una matriz de la cantidad de 
+columnas por 1. Es decir que si hay 2 columnas es de 2x1) y se iguala a 
+un escalar lambda λ, multiplicado por el mismo vector.
+La ecuación sería:
+
+A * v = λ * v
+
+Ecuación característica:
+
+Det( A - λ * I ) = 0                         (I = Identidad),  (Det() = Determinante)
+
+Lo que nos queda saber es qué valores satisfacen la ecuación. Dichos valores de lambda
+se reemplazan en la primera ecuación. Aunque primero se la iguala a 0:
+
+(A - λ * I) * v = 0
+
+Utilizamos los valores de lambda que encontramos y despejamos el vector "v", el cual resulta ser 
+un vector unitario.
+
+Luego lo normalizamos, dividiendo sus valores por su norma (la norma del vector: sumamos el cuadrado de sus valores
+y al total le aplicamos raíz cuadrada), para generar un vector propio unitario.
+
+"""
+
 orden = np.argsort(valores_propios)[::-1] # Ordenar índices de mayor a menor valor propio
-valores_propios = valores_propios[orden]
-vectores_propios = vectores_propios[:, orden]
+valores_propios = valores_propios[orden] # Se acomodan los valores
+vectores_propios = vectores_propios[:, orden] # Lo mismo con los vectores
 
 # Calcular la varianza explicada
-varianza_total = np.sum(valores_propios)
+varianza_total = np.sum(valores_propios) # La varianza total es la sumatoria de los valores propios
 
 varianza_explicada = valores_propios / varianza_total
 
