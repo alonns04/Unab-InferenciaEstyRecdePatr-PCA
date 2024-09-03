@@ -2,12 +2,14 @@ import pandas as pd
 import numpy as np
 
 # Cargar el archivo Excel
-file_path = 'excel.xlsx'  # Ruta relativa al archivo .py
-df = pd.read_excel(file_path)
+file_path = 'diabetes.csv'  # Ruta relativa al archivo .py
+df = pd.read_csv(file_path)
 
-# Resto la media a cada uno de los datos:
+nombres = df.columns.tolist() # Almacenamos los nombres de cada columna
+
+# Resto la media y divido por la desviación estandar a cada uno de los datos:
 for column in df.columns: # Para cada columna en todas las columnas que existen
-    df[column] = df[column] - (sum(df[column]) / len(df[column]))
+    df[column] = (df[column] - df[column].mean()) / df[column].std()
 """
 La columna va a ser igual a sí misma, menos el promedio de la columna
 (es decir, la suma de todos los datos dividido la cantidad de datos)
