@@ -9,7 +9,7 @@ nombres = df.columns.tolist() # Almacenamos los nombres de cada columna
 
 # Resto la media y divido por la desviación estandar a cada uno de los datos:
 for column in df.columns: # Para cada columna en todas las columnas que existen
-    df[column] = (df[column] - df[column].mean()) / df[column].std()
+    df[column] = ((df[column] - df[column].mean())) / df[column].std()
 """
 La columna va a ser igual a sí misma, menos el promedio de la columna
 (es decir, la suma de todos los datos dividido la cantidad de datos)
