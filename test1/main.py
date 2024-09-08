@@ -10,10 +10,7 @@ nombres = df.columns.tolist() # Almacenamos los nombres de cada columna
 # Resto la media y divido por la desviación estandar a cada uno de los datos:
 for column in df.columns: # Para cada columna en todas las columnas que existen
     df[column] = ((df[column] - df[column].mean())) / df[column].std()
-"""
-La columna va a ser igual a sí misma, menos el promedio de la columna
-(es decir, la suma de todos los datos dividido la cantidad de datos)
-"""
+
 def matriz_covarianza(matriz):
 
     columnas = matriz.columns
@@ -77,8 +74,15 @@ varianza_acumulada = np.cumsum(varianza_explicada)
 def transformar_datos(df, vectores_propios):
     # Convertir el DataFrame a una matriz NumPy
     datos = df.values
+    
+    #print(np.dot([datos[0],datos[1]], vectores_propios[0]))
+    print(len(vectores_propios))
+    print("datos", datos[0], "vector_propio", [[vectores_propios[0]],[vectores_propios[1]],[vectores_propios[2]],[vectores_propios[3]],[vectores_propios[4]],[vectores_propios[5]],[vectores_propios[6]],[vectores_propios[7]],[vectores_propios[8]]])
     # Multiplicar los datos por los vectores propios
+    # print(np.dot([[vectores_propios[0]], [vectores_propios[1]],[vectores_propios[2]],[vectores_propios[3]],[vectores_propios[4]],[vectores_propios[5]],[vectores_propios[6]],[vectores_propios[7]], [vectores_propios[8]]], datos[0]))
+    print(len(datos))
     return np.dot(datos, vectores_propios)
 
 # Transformar los datos usando los vectores propios ordenados
 datos_transformados = transformar_datos(df, vectores_propios)
+

@@ -22,11 +22,6 @@ print(datos_transformados)
 
 df_transformados = pd.DataFrame(datos_transformados)
 
-df_transformados.loc[-1] = nombres  # Añadir los nombres de columnas como una nueva fila
-df_transformados.index = df_transformados.index + 1  # Cambiar el índice para que la nueva fila sea la primera
-df_transformados.sort_index(inplace=True)  # Ordenar el índice
-
-# Guardar en un archivo Excel
 output_file = 'datos_transformados.xlsx'
 df_transformados.to_excel(output_file, index=False, header=False)
 
