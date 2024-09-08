@@ -1,13 +1,19 @@
 import pandas as pd
 from tabulate import tabulate
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
 
-# Cargar el DataFrame
+
 df = pd.read_csv('iris.data', header=None)
+
 nombres_col = ['longitud_sepalo', 'ancho_sepalo', 'longitud_petalo', 'ancho_petalo', 'clase']
+
 df.columns = nombres_col
 
-# Mostrar las primeras filas
-df_head = df.head()
+X_cols = ['longitud_sepalo', 'ancho_sepalo', 'longitud_petalo', 'ancho_petalo', 'clase']
 
-# Mostrar el DataFrame como una tabla en la consola
-print(tabulate(df, headers='keys', tablefmt='grid'))
+ss = StandardScaler()
+
+df[X_cols] = ss.fit_transform(df[X_cols])
+
+df.head()
