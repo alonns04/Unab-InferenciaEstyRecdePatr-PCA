@@ -1,7 +1,4 @@
-from main import varianza_explicada, varianza_acumulada, valores_propios, vectores_propios, datos_transformados, matriz_cov, nombres
-import pandas as pd
-
-print("Matriz de covarianza \n", matriz_cov)
+from main import varianza_explicada, varianza_acumulada, valores_propios, vectores_propios, excel_pca, excel_datos_transformados, excel_matriz_covarianza
 
 
 print("Varianza explicada por cada componente:")
@@ -17,12 +14,9 @@ print("Valores propios ordenados:")
 print(valores_propios)
 print("Vectores propios ordenados:")
 print(vectores_propios)
-print("Datos transformados (proyecciones en los componentes principales):")
-print(datos_transformados)
 
-df_transformados = pd.DataFrame(datos_transformados)
+excel_pca()
 
-output_file = 'datos_transformados.xlsx'
-df_transformados.to_excel(output_file, index=False, header=False)
+excel_datos_transformados()
 
-print(f"Los datos se han guardado en '{output_file}'")
+excel_matriz_covarianza()

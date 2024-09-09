@@ -3,7 +3,10 @@ import numpy as np
 
 # Cargar el archivo Excel
 file_path = 'diabetes.csv'  # Ruta relativa al archivo .py
+
 df = pd.read_csv(file_path)
+
+df = df.drop('Outcome', axis=1)  # Excluir la columna 'Outcome' que es la etiqueta
 
 nombres = df.columns.tolist() # Almacenamos los nombres de cada columna
 
@@ -68,21 +71,53 @@ varianza_explicada = valores_propios / varianza_total
 
 varianza_acumulada = np.cumsum(varianza_explicada)
 
-
-
-# Transformar los datos
-def transformar_datos(df, vectores_propios):
-    # Convertir el DataFrame a una matriz NumPy
-    datos = df.values
+def excel_matriz_covarianza():
+    # Crear el DataFrame sin nombres de columnas
+    df = pd.DataFrame(matriz_cov)
     
-    #print(np.dot([datos[0],datos[1]], vectores_propios[0]))
-    print(len(vectores_propios))
-    print("datos", datos[0], "vector_propio", [[vectores_propios[0]],[vectores_propios[1]],[vectores_propios[2]],[vectores_propios[3]],[vectores_propios[4]],[vectores_propios[5]],[vectores_propios[6]],[vectores_propios[7]],[vectores_propios[8]]])
-    # Multiplicar los datos por los vectores propios
-    # print(np.dot([[vectores_propios[0]], [vectores_propios[1]],[vectores_propios[2]],[vectores_propios[3]],[vectores_propios[4]],[vectores_propios[5]],[vectores_propios[6]],[vectores_propios[7]], [vectores_propios[8]]], datos[0]))
-    print(len(datos))
-    return np.dot(datos, vectores_propios)
+    # Guardar el DataFrame en un archivo Excel sin encabezado
+    output_file = 'COV.xlsx'
+    df.to_excel(output_file, index=False, header=False)
+
+
+def excel_pca():
+    # Crear nombres de las columnas
+    columns = [f'PCA{i+1}' for i in range(len(vectores_propios[0]))]
+    
+    # Crear el DataFrame con los nombres de las columnas
+    df = pd.DataFrame(vectores_propios, columns=columns)
+    
+    # Guardar el DataFrame en un archivo Excel con encabezado
+    output_file = 'PCA.xlsx'
+    df.to_excel(output_file, index=False, header=True)
+
+def excel_datos_transformados():
+    datos = df.values
+    datos_transformados = np.dot(datos, vectores_propios)
+
+    df_transformados = pd.DataFrame(datos_transformados)
+
+    output_file = 'datos_transformados.xlsx'
+    df_transformados.to_excel(output_file, index=False, header=False)
+
+
+    # Leer el archivo CSV, omitiendo la primera fila
+    csv_data = pd.read_csv('diabetes.csv', skiprows=1, header=None)
+
+    # Extraer la última columna del CSV
+    last_column = csv_data.iloc[:, -1]  # Selecciona la última columna
+
+    # Leer el archivo Excel existente sin encabezado
+    excel_data = pd.read_excel('datos_transformados.xlsx', header=None)
+
+    # Agregar la última columna del CSV al final del DataFrame del Excel
+    excel_data['Diabetes'] = last_column.values
+
+    # Guardar el DataFrame modificado en el archivo Excel, sin encabezado
+    excel_data.to_excel('datos_transformados.xlsx', index=False, header=False)
+    # Guardar el DataFrame modificado en el archivo Excel
+    excel_data.to_excel('datos_transformados.xlsx', index=False)
 
 # Transformar los datos usando los vectores propios ordenados
-datos_transformados = transformar_datos(df, vectores_propios)
+
 
