@@ -1,12 +1,15 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 # Cargar el archivo Excel
 file_path = 'diabetes.csv'  # Ruta relativa al archivo .py
 
 df = pd.read_csv(file_path)
 
-df = df.drop('Outcome', axis=1)  # Excluir la columna 'Outcome' que es la etiqueta
+df = df.drop(df.columns[-1], axis=1)  # Excluir la última columna
+
 
 nombres = df.columns.tolist() # Almacenamos los nombres de cada columna
 
@@ -73,11 +76,12 @@ varianza_acumulada = np.cumsum(varianza_explicada)
 
 def excel_matriz_covarianza():
     # Crear el DataFrame sin nombres de columnas
-    df = pd.DataFrame(matriz_cov)
+    mc = pd.DataFrame(matriz_cov)
+    print("matriz de covarianza", matriz_cov)
     
     # Guardar el DataFrame en un archivo Excel sin encabezado
     output_file = 'COV.xlsx'
-    df.to_excel(output_file, index=False, header=False)
+    mc.to_excel(output_file, index=False, header=False)
 
 
 def excel_pca():
@@ -115,9 +119,51 @@ def excel_datos_transformados():
 
     # Guardar el DataFrame modificado en el archivo Excel, sin encabezado
     excel_data.to_excel('datos_transformados.xlsx', index=False, header=False)
-    # Guardar el DataFrame modificado en el archivo Excel
     excel_data.to_excel('datos_transformados.xlsx', index=False)
+
+    return excel_data
 
 # Transformar los datos usando los vectores propios ordenados
 
 
+def grafico(datos, *columnas):
+    # Verificar que las columnas estén entre 1 y 8
+    for col in columnas:
+        if col < 1 or col > 8:
+            raise ValueError("Los parámetros deben estar entre 1 y 8.")
+    
+    # Convertir columnas para trabajar con índices 0-based
+    columnas = [col - 1 for col in columnas]
+    
+    # Extraer las columnas seleccionadas
+    x = datos.iloc[:, columnas[0]]
+    y = datos.iloc[:, columnas[1]]
+    diabetes = datos['Diabetes']
+
+    # Si hay 2 columnas, gráfico en 2D
+    if len(columnas) == 2:
+        plt.figure()
+        plt.grid()
+        for valor in [0, 1]:
+            plt.scatter(x[diabetes == valor], y[diabetes == valor], 
+                        label=f"Diabetes {valor}", 
+                        color='red' if valor == 1 else 'blue')
+        plt.xlabel(f'PCA{columnas[0] + 1}')
+        plt.ylabel(f'PCA{columnas[1] + 1}')
+        plt.legend()
+        plt.show()
+
+    # Si hay 3 columnas, gráfico en 3D
+    elif len(columnas) == 3:
+        z = datos.iloc[:, columnas[2]]
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+        for valor in [0, 1]:
+            ax.scatter(x[diabetes == valor], y[diabetes == valor], z[diabetes == valor],
+                        label=f"Diabetes {valor}", 
+                        color='red' if valor == 1 else 'blue')
+        ax.set_xlabel(f'PCA{columnas[0] + 1}')
+        ax.set_ylabel(f'PCA{columnas[1] + 1}')
+        ax.set_zlabel(f'PCA{columnas[2] + 1}')
+        plt.legend()
+        plt.show()

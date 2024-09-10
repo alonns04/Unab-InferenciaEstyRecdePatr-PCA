@@ -1,4 +1,4 @@
-from main import varianza_explicada, varianza_acumulada, valores_propios, vectores_propios, excel_pca, excel_datos_transformados, excel_matriz_covarianza
+from main import varianza_explicada, varianza_acumulada, valores_propios, vectores_propios, excel_pca, excel_datos_transformados, excel_matriz_covarianza, grafico
 
 
 print("Varianza explicada por cada componente:")
@@ -17,6 +17,8 @@ print(vectores_propios)
 
 excel_pca()
 
-excel_datos_transformados()
+datos = excel_datos_transformados()
 
 excel_matriz_covarianza()
+
+grafico(datos, 1, 2, 3)
